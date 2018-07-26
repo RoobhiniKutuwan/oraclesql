@@ -1,0 +1,40 @@
+Select CUSTOMER_ID,ACCOUNT_TYPE,ACCOUNT_NO from ACCOUNT_INFO,BANK_INFO where ACCOUNT_INFO.IFSC_CODE=BANK_INFO.IFSC_CODE;
+
+Select CUSTOMER_ID,ACCOUNT_TYPE,ACCOUNT_NO,BANK_NAME from ACCOUNT_INFO ,BANK_INFO where ACCOUNT_INFO.IFSC_CODE=BANK_INFO.IFSC_CODE and BANK_INFO.BANK_NAME='HDFC' and ACCOUNT_INFO.REGISTRATION_DATE BETWEEN '12-01-2012' and '04-04-2012';
+
+select C.CUSTOMER_ID,C.CUSTOMER_NAME,A.ACCOUNT_NO,A.ACCOUNT_TYPE,B.BANK_NAME From CUSTOMER_PERSONAL_INFO C,BANK_INFO B,ACCOUNT_INFO A where A.IFSC_CODE=B.IFSC_CODE;
+
+select customer_id,customer_name,gender,marital_status,customer_name || '_' || gender || '_' || marital_status UNIQUE_REF_STRING from customer_personal_info order by customer_id desc;
+
+select A.ACCOUNT_NO,A.CUSTOMER_ID,A.REGISTRATION_DATE,A.INITIAL_DEPOSIT from ACCOUNT_INFO A WHERE A.INITIAL_DEPOSIT BETWEEN 15000 and 25000;
+
+select C.CUSTOMER_ID,C.CUSTOMER_NAME,C.DATE_OF_BIRTH,C.GUARDIAN_NAME from CUSTOMER_PERSONAL_INFO C where C.CUSTOMER_NAME like 'J%';
+
+select A.ACCOUNT_NO,A.CUSTOMER_ID,concat(SUBSTR(A.CUSTOMER_ID,3,6),SUBSTR(A.ACCOUNT_NO,14,16))as PASSCODE  from ACCOUNT_INFO A; 
+
+select C.CUSTOMER_ID,C.CUSTOMER_NAME,C.DATE_OF_BIRTH,C.MARITAL_STATUS,C.GENDER,C.CONTACT_NO,C.MAIL_ID,C.GUARDIAN_NAME from CUSTOMER_PERSONAL_INFO C where C.GENDER='M' and C.MARITAL_STATUS='MARRIED';
+
+select R.CUSTOMER_ID,C.CUSTOMER_NAME,C.GUARDIAN_NAME,R.REFERENCE_ACC_NAME from CUSTOMER_PERSONAL_INFO C,CUSTOMER_REFERENCE_INFO R where R.CUSTOMER_ID=C.CUSTOMER_ID and R.RELATION='FRIEND';
+
+SELECT c.customer_id, c.customer_name, c.guardian_name, r.reference_acc_name FROM customer_personal_info c,customer_reference_info r WHERE c.customer_id = r.customer_id AND LOWER(r.relation) = 'friend';
+
+Select CUSTOMER_ID,ACCOUNT_NO,'$' || round(INTEREST) as INTEREST_AMT from ACCOUNT_INFO order by INTEREST_AMT;
+
+SELECT ac.customer_id, c.customer_name, ac.account_no, ac.account_type,ac.activation_date,b.bank_name FROM account_info ac,customer_personal_info c,bank_info b WHERE ac.ifsc_code = b.ifsc_code AND ac.customer_id = c.customer_id AND ac.activation_date ='10-04-2012';
+
+SELECT ac.account_no,ac.customer_id,c.customer_name,b.bank_name,b.ifsc_code,c.citizenship,ac.interest,ac.initial_deposit FROM account_info ac,customer_personal_info c,bank_info b WHERE ac.ifsc_code = b.ifsc_code AND ac.customer_id = c.customer_id;
+
+SELECT ac.customer_id,c.customer_name,ac.account_no,c.date_of_birth,c.guardian_name,c.contact_no,c.mail_id FROM account_info ac,customer_personal_info c,CUSTOMER_REFERENCE_INFO r WHERE c.customer_id = ac.customer_id AND ac.customer_id = c.customer_id AND r.customer_id = c.customer_id and c.IDENTIFICATION_DOC_TYPE='PASSPORT';
+
+SELECT ac.customer_id,c.customer_name,ac.account_no,ac.account_type,ac.interest,b.bank_name,ac.initial_deposit FROM account_info ac,customer_personal_info c,bank_info b WHERE ac.ifsc_code = b.ifsc_code AND ac.customer_id = c.customer_id ORDER BY initial_deposit DESC;
+
+SELECT ac.customer_id,c.customer_name,ac.account_no,ac.account_type,ac.interest,b.bank_name,ac.initial_deposit FROM account_info ac,customer_personal_info c,bank_info b WHERE ac.ifsc_code = b.ifsc_code AND ac.customer_id = c.customer_id ORDER BY interest DESC;
+
+SELECT ac.customer_id,c.customer_name,ac.account_no,b.bank_name,c.contact_no,c.mail_id FROM account_info ac,customer_personal_info c,bank_info b WHERE ac.ifsc_code = b.ifsc_code AND ac.customer_id = c.customer_id AND instr(LOWER(address), 'bangalore') <> 0;
+
+SELECT ac.customer_id,b.bank_name,b.branch_name,b.ifsc_code,ac.registration_date FROM account_info ac,customer_personal_info c,bank_info b WHERE ac.ifsc_code = b.ifsc_code AND ac.customer_id = c.customer_id AND to_char(activation_date, 'mm') = '03';
+
+SELECT ac.customer_id,c.customer_name,ac.account_no,ac.account_type,ac.interest,ac.initial_deposit,((ac.interest / 100) * initial_deposit) AS interest_amt FROM account_info ac,customer_personal_info c,bank_info b WHERE ac.ifsc_code = b.ifsc_code AND ac.customer_id = c.customer_id;
+
+SELECTC.CUSTOMER_ID,C.CUSTOMER_NAME,AC.ACCOUNT_NO,AC.ACCOUNT_TYPE,AC.INITIAL_DEPOSIT,CASE  WHEN AC.INITIAL_DEPOSIT >= 30000 THEN '7%' WHEN AC.INITIAL_DEPOSIT >= 20000 THEN '5%' WHEN AC.INITIAL_DEPOSIT >= 10000 THEN '3%' WHEN AC.INITIAL_DEPOSIT >= 0 THEN '0%' END AS taxPercentage FROM BANK_INFO B,CUSTOMER_PERSONAL_INFO C,ACCOUNT_INFO AC WHERE C.CUSTOMER_ID = AC.CUSTOMER_ID AND AC.IFSC_CODE = B.IFSC_CODE;
+
